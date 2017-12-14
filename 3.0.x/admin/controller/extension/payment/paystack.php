@@ -1,5 +1,28 @@
 <?php
-class ControllerPaymentPaystack extends Controller
+
+error_reporting(-1);
+ini_set('display_errors','on');
+
+function feedbacker_SetExceptionHandlers() {
+    set_exception_handler('feedbacker_HandleExceptions');
+    set_error_handler('feedbacker_HandleErrors');
+}
+
+function feedbacker_HandleExceptions($exception) {
+    http_response_code(500);
+    echo 'Exception of type \''.get_class($exception).'\' occurred with Message: '.$exception->getMessage().' in File '.$exception->getFile().' at Line '.$exception->getLine();
+    echo "\r\n Backtrace \r\n";
+    echo $exception->getTraceAsString() . "\n";
+    
+}
+
+function feedbacker_HandleErrors($errno, $errstr, $errfile, $errline){
+    echo "[$errno] $errstr on line $errline in $errfile\n";
+}
+
+feedbacker_SetExceptionHandlers();
+
+class ControllerExtensionPaymentPaystack extends controller
 {
     private $error = array();
 
@@ -88,7 +111,7 @@ class ControllerPaymentPaystack extends Controller
 
         $data['action'] = $this->url->link('extension/payment/paystack', 'token=' . $this->session->data['token'], 'SSL');
 
-        $data['cancel'] = $this->url->link('extension/payment', 'token=' . $this->session->data['token'] . '&type=payment', 'SSL');
+        $data['cancel'] = $this->url->link('marketplace/extension', 'token=' . $this->session->data['token'] . '&type=payment', 'SSL');
 
         if (isset($this->request->post['paystack_live_secret'])) {
             $data['paystack_live_secret'] = $this->request->post['paystack_live_secret'];
