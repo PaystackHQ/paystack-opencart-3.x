@@ -99,7 +99,7 @@ class ControllerExtensionPaymentPaystack extends controller
 
         $data['breadcrumbs'][] = array(
         'text' => $this->language->get('text_payment'),
-        'href' => $this->url->link('extension/extension', 'user_token=' . $this->session->data['user_token'].'&type=payment', 'SSL')
+        'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'].'&type=payment', 'SSL')
         );
 
         $data['breadcrumbs'][] = array(
