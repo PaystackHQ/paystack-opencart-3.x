@@ -201,7 +201,7 @@ class ControllerExtensionPaymentPaystack extends controller
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
 
-        $this->response->setOutput($this->load->view('payment/paystack.tpl', $data));
+        $this->response->setOutput($this->load->view('extension/payment/paystack', $data));
     }
     
     private function valid_key($value, $mode, $access)
