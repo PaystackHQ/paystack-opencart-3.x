@@ -1,9 +1,9 @@
 <?php
-class ModelPaymentPaystack extends Model
+class ModelExtensionPaymentPaystack extends Model
 {
     public function getMethod($address, $total)
     {
-        $this->load->language('payment/paystack');
+        $this->load->language('extension/payment/paystack');
 
         $query = $this->db->query(
             "SELECT *
