@@ -41,7 +41,7 @@ class ControllerExtensionPaymentPaystack extends controller
 
             $this->session->data['success'] = $this->language->get('text_success');
 
-            $this->response->redirect($this->url->link('marketplace/extension', 'token=' . $this->session->data['token']. '&type=payment', 'SSL'));
+            $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token']. '&type=payment', 'SSL'));
         }
 
         $data['heading_title'] = $this->language->get('heading_title');
@@ -92,26 +92,24 @@ class ControllerExtensionPaymentPaystack extends controller
             $data['error_keys'] = '';
         }
 
-        $data['breadcrumbs'] = array();
-
         $data['breadcrumbs'][] = array(
         'text' => $this->language->get('text_home'),
-        'href' => $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL')
+        'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], 'SSL')
         );
 
         $data['breadcrumbs'][] = array(
         'text' => $this->language->get('text_payment'),
-        'href' => $this->url->link('extension/extension', 'token=' . $this->session->data['token'].'&type=payment', 'SSL')
+        'href' => $this->url->link('extension/extension', 'user_token=' . $this->session->data['user_token'].'&type=payment', 'SSL')
         );
 
         $data['breadcrumbs'][] = array(
         'text' => $this->language->get('heading_title'),
-        'href' => $this->url->link('extension/payment/paystack', 'token=' . $this->session->data['token'], 'SSL')
+        'href' => $this->url->link('extension/payment/paystack', 'user_token=' . $this->session->data['user_token'], 'SSL')
         );
 
-        $data['action'] = $this->url->link('extension/payment/paystack', 'token=' . $this->session->data['token'], 'SSL');
+        $data['action'] = $this->url->link('extension/payment/paystack', 'user_token=' . $this->session->data['user_token'], 'SSL');
 
-        $data['cancel'] = $this->url->link('marketplace/extension', 'token=' . $this->session->data['token'] . '&type=payment', 'SSL');
+        $data['cancel'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=payment', 'SSL');
 
         if (isset($this->request->post['paystack_live_secret'])) {
             $data['paystack_live_secret'] = $this->request->post['paystack_live_secret'];
