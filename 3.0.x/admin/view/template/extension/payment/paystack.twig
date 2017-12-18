@@ -43,9 +43,9 @@
 								<label class="col-sm-2 control-label" for="entry-test-secret">{{ entry_test_secret }}
 								</label> 
 								<div class="col-sm-10">
-									<input type="text" name="paystack_test_secret" value="{{ paystack_test_secret }}" placeholder="{{ entry_test_secret }}" id="entry-test-secret" class="form-control" />
+									<input type="text" name="payment_paystack_test_secret" value="{{ payment_paystack_test_secret }}" placeholder="{{ entry_test_secret }}" id="entry-test-secret" class="form-control" />
 
-									{% if not paystack_live and error_keys %}
+									{% if not payment_paystack_live and error_keys %}
 									<div class="text-danger">
 									{{ error_keys }}
 									</div>
@@ -56,9 +56,9 @@
 								<label class="col-sm-2 control-label" for="entry-test-public">{{ entry_test_public }}
 								</label> 
 								<div class="col-sm-10">
-									<input type="text" name="paystack_test_public" value="{{ paystack_test_public }}" placeholder="{{ entry_test_public }}" id="entry-test-public" class="form-control" />
+									<input type="text" name="payment_paystack_test_public" value="{{ payment_paystack_test_public }}" placeholder="{{ entry_test_public }}" id="entry-test-public" class="form-control" />
 
-									{% if (not paystack_live and error_keys) %}
+									{% if (not payment_paystack_live and error_keys) %}
 									<div class="text-danger">
 									{{ error_keys }}
 									</div>
@@ -69,10 +69,10 @@
 								<label class="col-sm-2 control-label" for="input-live-demo"><span data-toggle="tooltip" title="{{ help_live }}">{{ entry_live }}
 								</span></label> 
 								<div class="col-sm-10">
-									<select name="paystack_live" id="input-live-demo" class="form-control">
-										<option value="1" {{ paystack_live ? 'selected="selected"':'' }}> {{ text_yes }}
+									<select name="payment_paystack_live" id="input-live-demo" class="form-control">
+										<option value="1" {{ payment_paystack_live ? 'selected="selected"':'' }}> {{ text_yes }}
 										</option>
-										<option value="0" {{ paystack_live ? '':'selected="selected"' }}> {{ text_no }}
+										<option value="0" {{ payment_paystack_live ? '':'selected="selected"' }}> {{ text_no }}
 										</option>
 									</select>
 								</div>
@@ -81,9 +81,9 @@
 								<label class="col-sm-2 control-label" for="entry-live-secret">{{ entry_live_secret }}
 								</label> 
 								<div class="col-sm-10">
-									<input type="text" name="paystack_live_secret" value="{{ paystack_live_secret }}" placeholder="{{ entry_live_secret }}" id="entry-live-secret" class="form-control" />
+									<input type="text" name="payment_paystack_live_secret" value="{{ payment_paystack_live_secret }}" placeholder="{{ entry_live_secret }}" id="entry-live-secret" class="form-control" />
 
-									{% if (paystack_live and error_keys) %}
+									{% if (payment_paystack_live and error_keys) %}
 									<div class="text-danger">
 									{{ error_keys }}
 									</div>
@@ -94,9 +94,9 @@
 								<label class="col-sm-2 control-label" for="entry-live-public"> {{ entry_live_public }}
 								</label> 
 								<div class="col-sm-10">
-									<input type="text" name="paystack_live_public" value=" {{ paystack_live_public }}" placeholder=" {{ entry_live_public }}" id="entry-live-public" class="form-control" />
+									<input type="text" name="payment_paystack_live_public" value=" {{ payment_paystack_live_public }}" placeholder=" {{ entry_live_public }}" id="entry-live-public" class="form-control" />
 
-									{% if (paystack_live and error_keys) %}
+									{% if (payment_paystack_live and error_keys) %}
 									<div class="text-danger">
 									{{ error_keys }}
 									</div>
@@ -107,8 +107,8 @@
 								<label class="col-sm-2 control-label" for="input-debug"><span data-toggle="tooltip" title=" {{ help_debug }}"> {{ entry_debug }}
 								</span></label> 
 								<div class="col-sm-10">
-									<select name="paystack_debug" id="input-debug" class="form-control">
-										{% if paystack_debug %}
+									<select name="payment_paystack_debug" id="input-debug" class="form-control">
+										{% if payment_paystack_debug %}
 										<option value="1" selected="selected"> {{ text_enabled }}
 										</option>
 										<option value="0"> {{ text_disabled }}
@@ -126,7 +126,7 @@
 								<label class="col-sm-2 control-label" for="input-total"><span data-toggle="tooltip" title=" {{ help_total }}"> {{ entry_total }}
 								</span></label> 
 								<div class="col-sm-10">
-									<input type="text" name="paystack_total" value="{{ paystack_total }}" placeholder=" {{ entry_total }}" id="input-total" class="form-control" />
+									<input type="text" name="payment_paystack_total" value="{{ payment_paystack_total }}" placeholder=" {{ entry_total }}" id="input-total" class="form-control" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -134,7 +134,7 @@
 								{{ entry_sort_order }}
 								</label> 
 								<div class="col-sm-10">
-									<input type="text" name="paystack_sort_order" value=" {{ paystack_sort_order }}" placeholder=" {{ entry_sort_order }}" id="input-sort-order" class="form-control" />
+									<input type="text" name="payment_paystack_sort_order" value=" {{ payment_paystack_sort_order }}" placeholder=" {{ entry_sort_order }}" id="input-sort-order" class="form-control" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -142,12 +142,12 @@
 								{{ entry_geo_zone }}
 								</label> 
 								<div class="col-sm-10">
-									<select name="paystack_geo_zone_id" id="input-geo-zone" class="form-control">
+									<select name="payment_paystack_geo_zone_id" id="input-geo-zone" class="form-control">
 										<option value="0">
 										{{ text_all_zones }}
 										</option>
 										{% for geo_zones in geo_zone %}
-										{% if geo_zone.geo_zone_id == paystack_geo_zone_id %}
+										{% if geo_zone.geo_zone_id == payment_paystack_geo_zone_id %}
 										<option value="{{ geo_zone.geo_zone_id }}" selected="selected">{{ geo_zone.name }}
 										</option>
 										{% else %}
@@ -162,9 +162,9 @@
 								<label class="col-sm-2 control-label" for="input-status">{{ entry_status }}
 								</label> 
 								<div class="col-sm-10">
-									<select name="paystack_status" id="input-status" class="form-control">
+									<select name="payment_paystack_status" id="input-status" class="form-control">
 
-								{% if paystack_status %}
+								{% if payment_paystack_status %}
 										<option value="1" selected="selected">{{ text_enabled }}
 										</option>
 										<option value="0">{{ text_disabled }}
@@ -184,13 +184,13 @@
 								<label class="col-sm-2 control-label">{{ entry_approved_status }}
 								</label> 
 								<div class="col-sm-10">
-									<select name="paystack_approved_status_id" class="form-control">
+									<select name="payment_paystack_approved_status_id" class="form-control">
 
 									{% for order_status in order_statuses %}
-										{% if (order_status.order_status_id == paystack_approved_status_id) %}
+										{% if (order_status.order_status_id == payment_paystack_approved_status_id) %}
 										<option value=" {{ order_status.order_status_id }} " selected="selected"> {{ order_status.name }}
 										</option>
-										{% elseif not paystack_approved_status_id and order_status.name|upper|trim == 'PROCESSING' %}
+										{% elseif not payment_paystack_approved_status_id and order_status.name|upper|trim == 'PROCESSING' %}
 										<option value=" {{ order_status.order_status_id }} " selected="selected"> {{ order_status.name }} 
 										</option>
 										{% else %}
@@ -205,12 +205,12 @@
 								<label class="col-sm-2 control-label"> {{ entry_declined_status}}
 								</label> 
 								<div class="col-sm-10">
-									<select name="paystack_declined_status_id" class="form-control">
+									<select name="payment_paystack_declined_status_id" class="form-control">
 									{% for order_status in order_statuses %}
-										{% if (order_status.order_status_id == paystack_declined_status_id) %}
+										{% if (order_status.order_status_id == payment_paystack_declined_status_id) %}
 										<option value=" {{ order_status.order_status_id }} " selected="selected"> {{ order_status.name }}
 										</option>
-										{% elseif not paystack_declined_status_id and order_status.name|upper|trim == 'DENIED' %}
+										{% elseif not payment_paystack_declined_status_id and order_status.name|upper|trim == 'DENIED' %}
 										<option value=" {{ order_status.order_status_id }} " selected="selected"> {{ order_status.name }} 
 										</option>
 										{% else %}
@@ -225,13 +225,13 @@
 								<label class="col-sm-2 control-label"> {{ entry_error_status }}
 								</label> 
 								<div class="col-sm-10">
-									<select name="paystack_error_status_id" class="form-control">
+									<select name="payment_paystack_error_status_id" class="form-control">
 
 									{% for order_status in order_statuses %}
-										{% if order_status.order_status_id == paystack_error_status_id %}
+										{% if order_status.order_status_id == payment_paystack_error_status_id %}
 										<option value=" {{ order_status.order_status_id }} " selected="selected"> {{ order_status.name }}
 										</option>
-										{% elseif not paystack_error_status_id and order_status.name|upper|trim == 'FAILED' %}
+										{% elseif not payment_paystack_error_status_id and order_status.name|upper|trim == 'FAILED' %}
 									<option value=" {{ order_status.order_status_id }} " selected="selected"> {{ order_status.name }}
 										</option>
 										{% else %}
