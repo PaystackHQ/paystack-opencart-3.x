@@ -40,3 +40,4 @@ To add currencies, you can do so at System > Localisation > Currencies.
 ## Contributors
 - Ibrahim Lawal
 - Kendyson Douglas
+- Stephen Amaza
