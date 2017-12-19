@@ -1,6 +1,7 @@
 {% if not livemode %}
  <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ text_testmode }}
 {% endif %}
+
 <form >
   <script src="https://js.paystack.co/v1/inline.js"></script>
   <div class="buttons">
@@ -18,12 +19,13 @@
       amount: {{amount}},
       ref: '{{ref}}',
       callback: function(response){
-          window.location.href='{{callback|raw}}';
+          window.location.href='{{callback}}'.replace('&amp;', '&').replace('&amp;', '&');
       },
       onClose: function(){
-          window.location.href='{{callback|raw}}';
+          window.location.href='{{callback}}'.replace('&amp;', '&').replace('&amp;', '&');
       }
     });
+    console.log(handler);
     handler.openIframe();
   }
 </script>
