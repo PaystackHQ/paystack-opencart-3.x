@@ -1,6 +1,8 @@
 <?php
-class ControllerExtensionPaymentPaystack extends Controller {
-	public function index() {
+class ControllerExtensionPaymentPaystack extends Controller
+{
+    public function index() 
+    {
         $this->load->model('checkout/order');
 
         $this->load->language('extension/payment/paystack');
@@ -18,27 +20,30 @@ class ControllerExtensionPaymentPaystack extends Controller {
 
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
-        $data['ref'] = uniqid('' . $this->session->data['order_id'] . '-');
-        $data['amount'] = intval($order_info['total'] * 100);
-        $data['email'] = $order_info['email'];
+        $data['currency'] = $order_info['currency_code'];
+        $data['ref']      = uniqid('' . $this->session->data['order_id'] . '-');
+        $data['amount']   = intval($order_info['total'] * 100);
+        $data['email']    = $order_info['email'];
         $data['callback'] = $this->url->link('extension/payment/paystack/callback', 'trxref=' . rawurlencode($data['ref']), 'SSL');
 
         return $this->load->view('extension/payment/paystack', $data);
     }
 
-    private function query_api_transaction_verify($reference) {
+    private function query_api_transaction_verify($reference) 
+    {
         if ($this->config->get('payment_paystack_live')) {
             $skey = $this->config->get('payment_paystack_live_secret');
         } else {
             $skey = $this->config->get('payment_paystack_test_secret');
         }
 
-        $context = stream_context_create(array(
-            'http'=>array(
-              'method'=>"GET",
-              'header'=>"Authorization: Bearer " .  $skey,
+        $context = stream_context_create(
+            array(
+                'http'=>array(
+                'method'=>"GET",
+                'header'=>"Authorization: Bearer " .  $skey,
+                )
             )
-          )
         );
         $url = 'https://api.paystack.co/transaction/verify/'. rawurlencode($reference);
         $request = file_get_contents($url, false, $context);
@@ -62,7 +67,7 @@ class ControllerExtensionPaymentPaystack extends Controller {
             // order id is what comes before the first dash in trxref
             $order_id = substr($trxref, 0, strpos($trxref, '-'));
             // if no dash were in transation reference, we will have an empty order_id
-            if(!$order_id) {
+            if (!$order_id) {
                 $order_id = 0;
             }
 
