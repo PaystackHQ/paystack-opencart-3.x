@@ -41,15 +41,13 @@ To add currencies, you can do so at System > Localisation > Currencies.
 * [Paystack Helpdesk](https://paystack.com/help)
 
 ## Support
-For bug reports and feature requests directly related to this plugin, please use the [issue tracker](https://github.com/PaystackHQ/paystack-payment-forms-for-wordpress/issues). 
-
-For questions related to using the plugin, please post an inquiry to the plugin [support forum](https://wordpress.org/support/plugin/payment-forms-for-paystack).
+For bug reports and feature requests directly related to this plugin, please use the [issue tracker](https://github.com/PaystackHQ/plugin-opencart-3.x/issues). 
 
 For general support or questions about your Paystack account, you can reach out by sending a message from [our website](https://paystack.com/contact).
 
 ## Community
 If you are a developer, please join our Developer Community on [Slack](https://slack.paystack.com).
 
-## Contributing to Payment Forms for Paystack
+## Contributing to OpenCart Extension for Paystack
 
-If you have a patch or have stumbled upon an issue with the Paystack Gateway for Paid Membership Pro plugin, you can contribute this back to the code. Please read our [contributor guidelines](https://github.com/PaystackHQ/plugin-opencart-3.x/blob/master/CONTRIBUTING.md) for more information how you can do this.
+If you have a patch or have stumbled upon an issue with the OpenCart extension for Paystack, you can contribute this back to the code. Please read our [contributor guidelines](https://github.com/PaystackHQ/plugin-opencart-3.x/blob/master/CONTRIBUTING.md) for more information how you can do this.
