@@ -1,7 +1,7 @@
 <?php
 class ControllerExtensionPaymentPaystack extends Controller
 {
-    public function index() 
+    public function index()
     {
         $this->load->model('checkout/order');
 
@@ -29,7 +29,7 @@ class ControllerExtensionPaymentPaystack extends Controller
         return $this->load->view('extension/payment/paystack', $data);
     }
 
-    private function query_api_transaction_verify($reference) 
+    private function query_api_transaction_verify($reference)
     {
         if ($this->config->get('payment_paystack_live')) {
             $skey = $this->config->get('payment_paystack_live_secret');
@@ -86,22 +86,19 @@ class ControllerExtensionPaymentPaystack extends Controller
                 $order_status_id = $this->config->get('config_order_status_id');
 
                 if (array_key_exists('data', $ps_api_response) && array_key_exists('status', $ps_api_response['data']) && ($ps_api_response['data']['status'] === 'success')) {
-                    $order_status_id = $this->config->get('payment_paystack_approved_status_id');
+                    $order_status_id = $this->config->get('payment_paystack_order_status_id');
                     $redir_url = $this->url->link('checkout/success');
-                } else if (array_key_exists('data', $ps_api_response) && array_key_exists('status', $ps_api_response['data']) && ($ps_api_response['data']['status'] === 'failure')) {
+                } elseif (array_key_exists('data', $ps_api_response) && array_key_exists('status', $ps_api_response['data']) && ($ps_api_response['data']['status'] === 'failed')) {
                     $order_status_id = $this->config->get('payment_paystack_declined_status_id');
                     $redir_url = $this->url->link('checkout/checkout', '', 'SSL');
                 } else {
-                    $order_status_id = $this->config->get('paystack_error_status_id');
+                    $order_status_id = $this->config->get('payment_paystack_canceled_status_id');
                     $redir_url = $this->url->link('checkout/checkout', '', 'SSL');
                 }
 
                 $this->model_checkout_order->addOrderHistory($order_id, $order_status_id);
                 $this->redir_and_die($redir_url);
             }
-
         }
-
-
     }
 }
