@@ -1,7 +1,7 @@
 <?php
 class ModelExtensionPaymentPaystack extends Model
 {
-    public function getMethod($address, $total) 
+    public function getMethod($address, $total)
     {
         $this->load->language('extension/payment/paystack');
 
@@ -19,10 +19,11 @@ class ModelExtensionPaymentPaystack extends Model
         
         // Paystack only switches NGN, GHS and USD for now
         if ($status && (!in_array(
-            strtoupper($this->config->get('config_currency')), 
-            [ 
+            strtoupper($this->config->get('config_currency')),
+            [
                 'NGN',
-                'GHS'
+                'GHS',
+                'USD'
             ]
         ))
         ) {
