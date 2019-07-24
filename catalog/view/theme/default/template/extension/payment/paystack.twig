@@ -19,6 +19,15 @@
       email: '{{email}}',
       amount: {{amount}},
       ref: '{{ref}}',
+      metadata:{
+         "custom_fields":[
+            {
+              "display_name":"Plugin",
+              "variable_name":"plugin",
+              "value":"open-cart"
+            }
+          ]
+      },
       callback: function(response){
           window.location.href='{{callback}}'.replace('&amp;', '&').replace('&amp;', '&');
       },
