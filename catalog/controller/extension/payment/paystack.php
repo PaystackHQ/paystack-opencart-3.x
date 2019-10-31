@@ -1,17 +1,20 @@
 <?php
-class open_cart_paystack_plugin_tracker {
+class open_cart_paystack_plugin_tracker
+{
     var $public_key;
     var $plugin_name;
-    function __construct($plugin, $pk){
+    function __construct($plugin, $pk)
+    {
         //configure plugin name
         //configure public key
         $this->plugin_name = $plugin;
         $this->public_key = $pk;
     }
 
-   
 
-    function log_transaction_success($trx_ref){
+
+    function log_transaction_success($trx_ref)
+    {
         //send reference to logger along with plugin name and public key
         $url = "https://plugin-tracker.paystackintegrations.com/log/charge_success";
 
@@ -25,11 +28,11 @@ class open_cart_paystack_plugin_tracker {
 
         $ch = curl_init();
 
-        curl_setopt($ch,CURLOPT_URL, $url);
-        curl_setopt($ch,CURLOPT_POST, true);
-        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
 
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         //execute post
         $result = curl_exec($ch);
@@ -39,7 +42,7 @@ class open_cart_paystack_plugin_tracker {
 
 
 class ControllerExtensionPaymentPaystack extends Controller
-{ 
+{
     public function index()
     {
         $this->load->model('checkout/order');
@@ -61,7 +64,8 @@ class ControllerExtensionPaymentPaystack extends Controller
 
         $data['currency'] = $order_info['currency_code'];
         $data['ref']      = uniqid('' . $this->session->data['order_id'] . '-');
-        $data['amount']   = intval($order_info['total'] * 100);
+        // $data['amount']   = intval($order_info['total'] * 100);
+        $data['amount'] = $this->currency->format(intval($order_info['total'] * 100), $order_info['currency_code'], $order_info['currency_value'], false);
         $data['email']    = $order_info['email'];
         $data['callback'] = $this->url->link('extension/payment/paystack/callback', 'trxref=' . rawurlencode($data['ref']), 'SSL');
 
@@ -78,14 +82,14 @@ class ControllerExtensionPaymentPaystack extends Controller
 
         $context = stream_context_create(
             array(
-                'http'=>array(
-                'method'=>"GET",
-                'header'=>"Authorization: Bearer " .  $skey,
-                'user-agent'=>"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
+                'http' => array(
+                    'method' => "GET",
+                    'header' => "Authorization: Bearer " .  $skey,
+                    'user-agent' => "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
                 )
             )
         );
-        $url = 'https://api.paystack.co/transaction/verify/'. rawurlencode($reference);
+        $url = 'https://api.paystack.co/transaction/verify/' . rawurlencode($reference);
         $request = file_get_contents($url, false, $context);
         return json_decode($request, true);
     }
@@ -132,8 +136,8 @@ class ControllerExtensionPaymentPaystack extends Controller
                     } else {
                         $pk = $this->config->get('payment_paystack_test_public');
                     }
-            
-                    $pstk_logger = new open_cart_paystack_plugin_tracker('opencart-3.x',$pk);
+
+                    $pstk_logger = new open_cart_paystack_plugin_tracker('opencart-3.x', $pk);
                     $pstk_logger->log_transaction_success($trxref);
 
                     //----------------------
