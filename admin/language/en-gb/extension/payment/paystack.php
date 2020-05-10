@@ -9,6 +9,7 @@ $_['text_edit']             = 'Edit Paystack';
 $_['text_paystack']         = '<a target="_BLANK" href="http://www.paystack.com"><img src="view/image/payment/paystack.png" alt="Paystack" title="Paystack" style="border: 1px solid #cccccc;" /></a>';
 $_['text_pay']              = 'Pay';
 $_['text_disable_payment']  = 'Disable Payment Method';
+$_['text_set_webhook']      = 'Optional: To avoid situations where bad network makes it impossible to verify transactions, set your webhook URL on your <a href="https://dashboard.paystack.co/#/settings/developer">Paystack Dashboard</a> to the URL below';
 
 // Entry
 $_['entry_live_secret']     = 'Live Secret Key:';
@@ -19,9 +20,9 @@ $_['entry_test_public']     = 'Test Public Key:';
 $_['entry_live']            = 'Live Mode';
 $_['entry_debug']           = 'Debug Mode';
 $_['entry_total']           = 'Total';
-$_['entry_order_status']	= 'Order Status';
-$_['entry_pending_status']	= 'Pending Status ';
-$_['entry_canceled_status']	= 'Canceled Status';
+$_['entry_order_status']    = 'Order Status';
+$_['entry_pending_status']    = 'Pending Status ';
+$_['entry_canceled_status']    = 'Canceled Status';
 $_['entry_failed_status']   = 'Failed Status';
 $_['entry_geo_zone']        = 'Geo Zone';
 $_['entry_status']          = 'Status';

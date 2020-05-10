@@ -16,8 +16,11 @@ class ControllerExtensionPaymentPaystack extends Controller
 
             $this->session->data['success'] = $this->language->get('text_success');
 
-            $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token']. '&type=payment', true));
+            $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=payment', true));
         }
+
+        // Set webhook url
+        $data['webhook_url'] = HTTPS_CATALOG . 'index.php?route=extension/payment/paystack/callback';
 
         if (isset($this->error['warning'])) {
             $data['error_warning'] = $this->error['warning'];
@@ -32,18 +35,18 @@ class ControllerExtensionPaymentPaystack extends Controller
         }
 
         $data['breadcrumbs'][] = array(
-        'text' => $this->language->get('text_home'),
-        'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true)
+            'text' => $this->language->get('text_home'),
+            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true)
         );
 
         $data['breadcrumbs'][] = array(
-        'text' => $this->language->get('text_payment'),
-        'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'].'&type=payment', true)
+            'text' => $this->language->get('text_payment'),
+            'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=payment', true)
         );
 
         $data['breadcrumbs'][] = array(
-        'text' => $this->language->get('heading_title'),
-        'href' => $this->url->link('extension/payment/paystack', 'user_token=' . $this->session->data['user_token'], true)
+            'text' => $this->language->get('heading_title'),
+            'href' => $this->url->link('extension/payment/paystack', 'user_token=' . $this->session->data['user_token'], true)
         );
 
         $data['action'] = $this->url->link('extension/payment/paystack', 'user_token=' . $this->session->data['user_token'], true);
@@ -55,25 +58,25 @@ class ControllerExtensionPaymentPaystack extends Controller
         } else {
             $data['payment_paystack_live_secret'] = $this->config->get('payment_paystack_live_secret');
         }
- 
+
         if (isset($this->request->post['payment_paystack_live_public'])) {
             $data['payment_paystack_live_public'] = $this->request->post['payment_paystack_live_public'];
         } else {
             $data['payment_paystack_live_public'] = $this->config->get('payment_paystack_live_public');
         }
- 
+
         if (isset($this->request->post['payment_paystack_test_secret'])) {
             $data['payment_paystack_test_secret'] = $this->request->post['payment_paystack_test_secret'];
         } else {
             $data['payment_paystack_test_secret'] = $this->config->get('payment_paystack_test_secret');
         }
- 
+
         if (isset($this->request->post['payment_paystack_test_public'])) {
             $data['payment_paystack_test_public'] = $this->request->post['payment_paystack_test_public'];
         } else {
             $data['payment_paystack_test_public'] = $this->config->get('payment_paystack_test_public');
         }
- 
+
         if (isset($this->request->post['payment_paystack_live'])) {
             $data['payment_paystack_live'] = $this->request->post['payment_paystack_live'];
         } else {
@@ -148,10 +151,10 @@ class ControllerExtensionPaymentPaystack extends Controller
 
         $this->response->setOutput($this->load->view('extension/payment/paystack', $data));
     }
-    
+
     private function valid_key($value, $mode, $access)
     {
-        return (substr_compare($value, (substr($access, 0, 1)).'k_'.$mode.'_', 0, 8, true)===0);
+        return (substr_compare($value, (substr($access, 0, 1)) . 'k_' . $mode . '_', 0, 8, true) === 0);
     }
 
     private function validate()
@@ -163,7 +166,7 @@ class ControllerExtensionPaymentPaystack extends Controller
         $live_public = $this->request->post['payment_paystack_live_public'];
         $test_secret = $this->request->post['payment_paystack_test_secret'];
         $test_public = $this->request->post['payment_paystack_test_public'];
- 
+
         if ($this->request->post['payment_paystack_live'] && (!$this->valid_key($live_secret, 'live', 'secret') || !$this->valid_key($live_public, 'live', 'public'))) {
             $this->error['keys'] = $this->language->get('error_live_keys');
         }

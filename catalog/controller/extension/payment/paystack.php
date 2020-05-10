@@ -64,8 +64,7 @@ class ControllerExtensionPaymentPaystack extends Controller
 
         $data['currency'] = $order_info['currency_code'];
         $data['ref']      = uniqid('' . $this->session->data['order_id'] . '-');
-        //$data['amount']   = intval($order_info['total'] * 100);
-        $data['amount']   = intval($this->currency->format($order_info['total']*100, $order_info['currency_code'], $order_info['currency_value'], false));
+        $data['amount']   = intval($this->currency->format($order_info['total'] * 100, $order_info['currency_code'], $order_info['currency_value'], false));
         $data['email']    = $order_info['email'];
         $data['callback'] = $this->url->link('extension/payment/paystack/callback', 'trxref=' . rawurlencode($data['ref']), 'SSL');
 
@@ -154,6 +153,66 @@ class ControllerExtensionPaymentPaystack extends Controller
                 $this->model_checkout_order->addOrderHistory($order_id, $order_status_id);
                 $this->redir_and_die($redir_url);
             }
+        } else if ((strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') && array_key_exists('x-paystack-signature', $_SERVER)) { // WEBHOOK CODE
+
+            // Retrieve the request's body
+            $input = @file_get_contents("php://input");
+
+            if ($this->config->get('payment_paystack_live')) {
+                $secret_key = $this->config->get('payment_paystack_live_secret');
+            } else {
+                $secret_key = $this->config->get('payment_paystack_test_secret');
+            }
+
+            // validate event do all at once to avoid timing attack
+            if ($_SERVER['HTTP_X_PAYSTACK_SIGNATURE'] !== hash_hmac('sha512', $input, $secret_key))
+                exit();
+
+            http_response_code(200);
+
+            // parse event (which is json string) as object
+            // Do something - that will not take long - with $event
+            $event = json_decode($input);
+
+            if ($event['event'] == 'charge.success') {
+
+                $trxref = $event['data']['reference'];
+
+                // order id is what comes before the first dash in trxref
+                $order_id = substr($trxref, 0, strpos($trxref, '-'));
+                // if no dash were in transation reference, we will have an empty order_id
+                if (!$order_id) {
+                    $order_id = 0;
+                }
+
+                $this->load->model('checkout/order');
+
+                $order_info = $this->model_checkout_order->getOrder($order_id);
+
+                $order_status_id = $this->config->get('config_order_status_id');
+
+                if (array_key_exists('data', $event) && array_key_exists('status', $event['data']) && ($event['data']['status'] === 'success')) {
+                    //PSTK Logger 
+                    if ($this->config->get('payment_paystack_live')) {
+                        $pk = $this->config->get('payment_paystack_live_public');
+                    } else {
+                        $pk = $this->config->get('payment_paystack_test_public');
+                    }
+
+                    $pstk_logger = new open_cart_paystack_plugin_tracker('opencart-3.x', $pk);
+                    $pstk_logger->log_transaction_success($trxref);
+
+                    //----------------------
+                    $order_status_id = $this->config->get('payment_paystack_order_status_id');
+                } elseif (array_key_exists('data', $event) && array_key_exists('status', $event['data']) && ($event['data']['status'] === 'failed')) {
+                    $order_status_id = $this->config->get('payment_paystack_declined_status_id');
+                } else {
+                    $order_status_id = $this->config->get('payment_paystack_canceled_status_id');
+                }
+
+                $this->model_checkout_order->addOrderHistory($order_id, $order_status_id);
+            }
+            exit();
         }
     }
 }
