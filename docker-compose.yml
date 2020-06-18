@@ -26,4 +26,3 @@ volumes:
     driver: local
   opencart_html:
     driver: local
-
