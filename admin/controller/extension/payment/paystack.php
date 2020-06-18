@@ -36,17 +36,17 @@ class ControllerExtensionPaymentPaystack extends Controller
 
         $data['breadcrumbs'][] = array(
             'text' => $this->language->get('text_home'),
-            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true)
+            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true),
         );
 
         $data['breadcrumbs'][] = array(
             'text' => $this->language->get('text_payment'),
-            'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=payment', true)
+            'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=payment', true),
         );
 
         $data['breadcrumbs'][] = array(
             'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link('extension/payment/paystack', 'user_token=' . $this->session->data['user_token'], true)
+            'href' => $this->url->link('extension/payment/paystack', 'user_token=' . $this->session->data['user_token'], true),
         );
 
         $data['action'] = $this->url->link('extension/payment/paystack', 'user_token=' . $this->session->data['user_token'], true);
